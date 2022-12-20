@@ -1,40 +1,39 @@
-
 # Libaries needed
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.preprocessing import Normalizer
-from sklearn.preprocessing import StandardScaler
 import pickle
 
 # Read Data set
 
-data = pd.read_csv('data/auto_mpg.csv', sep=',')
-print('Data is: \n', data)
-print('Shape is: \n', data.shape)
+data = pd.read_csv('data/auto_mpg.csv', sep=';')
 
-data = np.random.rand(33, 1)
+# show data details
+print('data = \n', data.head())
+print('**************************************')
+print('data.describe = \n', data.describe())
+print('**************************************')
 
-print('Data is: \n', data)
-print('Shape is: \n', data.shape)
+data = data.sample(frac=1)
+x_inputs = data.drop('mpg', axis=1)
+y_output = data['mpg']
 
-#x_input = data.loc[:, data.columns != 'mpg']
-#y_output = data['mpg']
+# creat model
 
-# class DataCleaning:
+x_train, x_test, y_train, y_test = train_test_split(
+    x_inputs, y_output, test_size=0.2, random_state=42)
 
+model = LinearRegression()
+model.fit(x_train, y_train)
 
-#    def __init__(self, x_input, y_output):
-#         self.x_input = x_input
-#         self.y_output = y_output
+con = pd.DataFrame(model.coef_, x_inputs.columns, columns=['Con'])
 
+y_pred = model.predict(x_test)
 
-#         return self.x_input, self.y_output
+filename = 'data/models/baummethoden_lr.pickle'
+pickle.dump(model, open(filename, 'wb'))
 
-# # def norma
-
-
-# data_cleaning = DataCleaning()
-# print(data_cleaning())
+# loaded_model = pickle.load(open(filename, 'rb'))
+# result = loaded_model.predict(x_test)
+# print(result)
