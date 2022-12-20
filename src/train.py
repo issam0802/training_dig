@@ -33,3 +33,7 @@ y_pred = model.predict(x_test)
 
 filename = 'data/models/baummethoden_lr.pickle'
 pickle.dump(model, open(filename, 'wb'))
+
+# loaded_model = pickle.load(open(filename, 'rb'))
+# result = loaded_model.predict(x_test)
+# print(result)
