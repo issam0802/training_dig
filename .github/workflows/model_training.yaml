@@ -1,5 +1,7 @@
 name: model_training
-on: [push]
+on:
+  push:
+
 jobs:
   train-model:
     runs-on: ubuntu-latest
